@@ -1,0 +1,73 @@
+# This repository adheres to the publiccode.yml standard by including this 
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.2'
+applicationSuite: Regione Piemonte Sistema Informativo Lavoro
+categories:
+  - erp
+description:
+  it:
+    features:
+      - ' - PNRR       - PNRR/Beneficiari/ASL       - PNRR/Beneficiari/Enti Regionali       - PNRR/Misura/1.4'
+    genericName: Gateway di firma
+    localisedName: Gatefire
+    longDescription: |2
+       Il “Gateway di Firma Digitale” è una soluzione open source orientata all’orchestrazione dei processi di gestione della firma digitale e di conferimento dei documenti digitali nei repository aziendali/regionali.  
+
+       Si inserisce nell’ecosistema sanitario digitale della Regione Piemonte. 
+
+       Gli applicativi regionali possono fruire dei servizi esposti dal sistema GATEFIRE per effettuare la firma digitale dei documenti clinici realizzati e per archiviare i documenti firmati nel Repository Clinico Documentale dell’Azienda Sanitaria di riferimento.
+
+       Il Documento Clinico Elettronico conferito sul Repository dell’ASR viene inviato al Fascicolo Sanitario Elettronico secondo le modalità di invio già previste.
+       
+       La creazione dei documenti clinici e l’invio ai Repository seguono le linee guida “Linee guida per la gestione di un Documento Clinico Elettronico”, consultabili al link http://www.sistemapiemonte.it/eXoRisorse/dwd/servizi/FascicoloSanitarioOperatori/2022/Linee%20guida%20per%20la%20gestione%20di%20un%20DCE_V9.pdf, all’interno delle regole definite nell’Affinity Domain di riferimento per l’interoperabilità dei sistemi di Fascicolo Sanitario Elettronico (https://www.fascicolosanitario.gov.it/it/Affinity_Domain_Italia) tra le Regioni e Province Autonome italiane attraverso l’Infrastruttura Nazionale per l’Interoperabilità (INI).
+       
+    shortDescription: Sistema Regionale di firma digitale e conferimento documenti nei repository sanitari aziendali 
+developmentStatus: stable
+intendedAudience:
+  countries:
+    - it
+  scope:
+    - healthcare
+it:
+  conforme:
+    gdpr: true
+    lineeGuidaDesign: true
+    misureMinimeSicurezza: false
+    modelloInteroperabilita: true
+  countryExtensionVersion: '0.2'
+  piattaforme:
+    anpr: false
+    cie: false
+    pagopa: false
+    spid: false
+  riuso:
+    codiceIPA: r_piemon  
+landingURL: 'https://github.com/regione-piemonte/gatefire.git'
+legal:
+  authorsFile: |-
+    https://github.com/regione-piemonte/gatefire/COPYRIGHTS.md
+  license: EUPL-1.2
+  mainCopyrightOwner: Regione Piemonte
+  repoOwner: Regione Piemonte
+localisation:
+  availableLanguages:
+    - it
+  localisationReady: false
+maintenance:
+  contacts:
+    - email: raffaela.montuori@csi.it
+      name: Raffaela Montuori
+    - email: paola.mantovani@csi.it
+      name: Paola Mantovani
+  type: internal
+name: Gatefire
+platforms:
+  - web
+releaseDate: '2022-10-13'
+softwareType: standalone/other
+softwareVersion: 1.1.0
+url: 'https://github.com/regione-piemonte/gatefire.git'
+usedBy:
+  - Regione Piemonte
