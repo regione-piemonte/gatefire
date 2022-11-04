@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+
+	<Properties>
+    	<Property name="logdir">${sys:jboss.server.log.dir}</Property>
+    	<Property name="consoleLayout">[%t] [%p] %d %c %M - %m%n</Property>
+    	<Property name="fileStdLayout">[%t] [%p] %d %c %M - %m%n</Property>
+    	<Property name="auditAuthenticateHeader">ThreadId;LogLevel;DateTime;TextMessage;ClientId;IdentityProviderName;RequestId;AuthenticationLevel%n</Property>
+    	<Property name="auditAuthenticateLayout">%t;%p;%d;%m;%X{ClientId};%X{IdentityProviderName};%X{RequestId};%X{AuthenticationLevel}%n</Property>
+    	<Property name="auditAssertionConsumerHeader">ThreadId;LogLevel;DateTime;TextMessage;ClientId;UserName;UserFamilyName;UserSpidCode%n</Property>
+  		<Property name="auditAssertionConsumerLayout">%t;%p;%d;%m;%X{ClientId};%X{UserName};%X{UserFamilyName};%X{UserSpidCode}%n</Property>
+    	<Property name="auditErrorHeader">ThreadId;LogLevel;DateTime;ServiceName;TextMessage;ClientId;IdentityProviderId;IdentityProviderName;%n</Property>
+    	<Property name="auditErrorLayout">%t;%p;%d;%X{ServiceName};%m;%X{ClientId};%X{IdentityProviderId};%X{IdentityProviderName};%n</Property>
+	</Properties>
+  
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${consoleLayout}" />
+		</Console>
+
+		<RollingFile name="RollingAppender"
+			fileName="${logdir}/gatefire.log"
+			filePattern="${logdir}/gatefire.log.%d{yyyy-MM-dd}.txt">
+			<PatternLayout pattern="${fileStdLayout}" />
+			<ContextMapFilter onMatch="DENY" onMismatch="ACCEPT">
+				<KeyValuePair key="MsgType" value="AUDIT" />
+			</ContextMapFilter>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
+		
+
+	</Appenders>
+
+	<!-- 3rdparty Loggers -->
+	<Loggers>
+		
+
+
+		<logger name="org.springframework.core" level="info" />
+		<logger name="org.springframework.beans" level="info" />
+		<logger name="org.springframework.context" level="info" />
+		<logger name="org.springframework.web" level="debug" />
+		<logger name="org.springframework.integration" level="warn" />
+
+
+		<logger name="java.sql" level="info" />
+
+		<logger name="java.file" level="info" />
+
+		<logger name="java.io" level="info" />
+		<logger name="it.csi" level="debug" />
+
+		<logger name="org.springframework.security" level="warn" />
+		<logger name="org.mybatis" level="debug" />
+		<!-- ROOT Loggers -->
+		<Root level="debug">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="RollingAppender" />
+		</Root>
+	</Loggers>
+</Configuration>
+
+ 
+	
+ 
+	
+	
+	

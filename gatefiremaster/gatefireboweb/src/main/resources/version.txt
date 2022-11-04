@@ -1,0 +1,1 @@
+Generato il  ${timestamp}    - Versione interna del WAR: ${buildNumber}    - Versione Maven ${project.version}

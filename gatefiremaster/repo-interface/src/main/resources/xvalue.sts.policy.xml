@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<wsp:Policy
+	xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+	xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+	wsu:Id="SigEncr">
+	<wsp:ExactlyOne>
+		<wsp:All>
+			<sp:SignedSupportingTokens
+				xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+				<wsp:Policy>
+					<sp:IssuedToken
+						sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+						<sp:Issuer>
+							<Address xmlns="http://www.w3.org/2005/08/addressing">http://foo.bar/we/don/t/process/this/yet</Address>
+						</sp:Issuer>
+						<sp:RequestSecurityTokenTemplate>
+							<!-- <t:TokenType xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust">urn:oasis:names:tc:SAML:1.0:assertion</t:TokenType> -->
+							<t:KeyType
+								xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust">
+								http://schemas.xmlsoap.org/ws/2005/02/trust/SymmetricKey
+							</t:KeyType>
+							<t:KeySize
+								xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust">256</t:KeySize>
+						</sp:RequestSecurityTokenTemplate>
+						<wsp:Policy>
+							<sp:RequireInternalReference />
+						</wsp:Policy>
+					</sp:IssuedToken>
+				</wsp:Policy>
+			</sp:SignedSupportingTokens>
+		</wsp:All>
+	</wsp:ExactlyOne>
+</wsp:Policy>

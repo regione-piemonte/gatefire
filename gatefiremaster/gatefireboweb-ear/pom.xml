@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>gatefireboweb-ear</artifactId>
+
+	<parent>
+		<groupId>it.csi.gatefire</groupId>
+		<artifactId>gatefiremaster</artifactId>
+		<version>1.1.0</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<packaging>ear</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>it.csi.gatefire</groupId>
+			<artifactId>gatefireboweb</artifactId>
+			<version>1.1.0</version>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>web-console</finalName>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-ear-plugin</artifactId>
+					<version>3.0.1</version>
+					<configuration>
+					<generateApplicationXml>false</generateApplicationXml>
+						<modules>
+							<webModule> 
+								<groupId>it.csi.gatefire</groupId>
+								<artifactId>gatefireboweb</artifactId>
+								<uri>web-console.war</uri>
+
+							</webModule>
+						</modules>
+					</configuration>
+				</plugin>
+				
+				<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<!-- specify UTF-8, ISO-8859-1 or any other file encoding -->
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

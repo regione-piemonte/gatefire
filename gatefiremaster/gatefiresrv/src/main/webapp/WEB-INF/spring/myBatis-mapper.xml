@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+
+	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+	<!-- DATA SOURCE -->
+
+
+
+	<jee:jndi-lookup id="gfdrDataSource"
+		jndi-name="jdbc/gatefiresrv" />
+
+
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="gfdrDataSource" />
+		
+		<property name="mapperLocations"
+			value="classpath*:it/csi/gatefire/dbhelper/dao/mybatis/maps/xml/*.xml" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage"
+			value="it.csi.gatefire.dbhelper.dao" />
+	</bean>
+
+
+
+
+
+
+
+</beans>

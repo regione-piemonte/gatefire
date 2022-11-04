@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure>
+
+	<ear-subdeployments-isolated>true</ear-subdeployments-isolated>
+	<deployment>
+
+		<exclude-subsystems>
+			<subsystem name="webservices" />
+			<subsystem name="jaxrs" />
+			<subsystem name="security" />
+		</exclude-subsystems>
+		<exclusions>
+			<module name="org.apache.xerces" />
+			<module name="org.apache.xalan" />
+			<module name="org.apache.xml-resolver" />
+		</exclusions>
+	</deployment>
+</jboss-deployment-structure> 

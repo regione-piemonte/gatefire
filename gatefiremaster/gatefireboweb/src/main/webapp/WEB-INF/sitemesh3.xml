@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+	<mapping decorator="/WEB-INF/decorators/mainDecorator.jsp" />
+
+	<mapping path="*/popup/*"
+		decorator="/WEB-INF/decorators/popup.jsp" />
+	<mapping path="*/error/*"
+		decorator="/WEB-INF/decorators/errorDecorator.jsp" />
+
+
+
+	<mapping path="*/admin/showLog" exclude="true" />
+	<content-processor>
+		<tag-rule-bundle
+			class="org.sitemesh.content.tagrules.html.Sm2TagRuleBundle" />
+	</content-processor>
+
+</sitemesh>
