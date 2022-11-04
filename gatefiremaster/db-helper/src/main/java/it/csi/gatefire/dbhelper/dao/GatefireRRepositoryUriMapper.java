@@ -1,3 +1,7 @@
+/*******************************************************************************
+* Copyright Regione Piemonte - 2022
+* SPDX-License-Identifier: EUPL-1.2
+******************************************************************************/
 package it.csi.gatefire.dbhelper.dao;
 
 import it.csi.gatefire.dbhelper.model.GatefireRRepositoryUri;

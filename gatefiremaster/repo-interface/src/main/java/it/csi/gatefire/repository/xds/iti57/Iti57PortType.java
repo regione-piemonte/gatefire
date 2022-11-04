@@ -1,3 +1,7 @@
+/*******************************************************************************
+* Copyright Regione Piemonte - 2022
+* SPDX-License-Identifier: EUPL-1.2
+******************************************************************************/
 package it.csi.gatefire.repository.xds.iti57;
 
 import javax.jws.WebMethod;
