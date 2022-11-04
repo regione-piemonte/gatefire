@@ -1,0 +1,1591 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.csi.it/gatefire/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="gateFireSrvc" targetNamespace="http://www.csi.it/gatefire/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xds="http://www.openehealth.org/ipf/xds" xmlns:tns="http://www.openehealth.org/ipf/xds" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.openehealth.org/ipf/xds" version="1.0">
+
+  <xs:element name="documentEntry" type="tns:DocumentEntry"/>
+
+  <xs:element name="submissionSet" type="tns:SubmissionSet"/>
+
+  <xs:complexType name="DocumentEntry">
+    <xs:complexContent>
+      <xs:extension base="tns:IdentifiedObject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="sourcePatientId" type="tns:Identifiable"/>
+          <xs:element minOccurs="0" name="sourcePatientInfo" type="tns:PatientInfo"/>
+          <xs:element minOccurs="0" name="creationTime" type="tns:Timestamp"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="author" type="tns:Author"/>
+          <xs:element minOccurs="0" name="legalAuthenticator" type="tns:Person"/>
+          <xs:element minOccurs="0" name="serviceStartTime" type="tns:Timestamp"/>
+          <xs:element minOccurs="0" name="serviceStopTime" type="tns:Timestamp"/>
+          <xs:element minOccurs="0" name="classCode" type="tns:Code"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="confidentialityCode" type="tns:Code"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="eventCode" type="tns:Code"/>
+          <xs:element minOccurs="0" name="formatCode" type="tns:Code"/>
+          <xs:element minOccurs="0" name="healthcareFacilityTypeCode" type="tns:Code"/>
+          <xs:element minOccurs="0" name="languageCode" type="xs:string"/>
+          <xs:element minOccurs="0" name="practiceSettingCode" type="tns:Code"/>
+          <xs:element minOccurs="0" name="typeCode" type="tns:Code"/>
+          <xs:element minOccurs="0" name="repositoryUniqueId" type="xs:string"/>
+          <xs:element minOccurs="0" name="mimeType" type="xs:string"/>
+          <xs:element minOccurs="0" name="size" type="xs:long"/>
+          <xs:element minOccurs="0" name="hash" type="xs:string"/>
+          <xs:element minOccurs="0" name="uri" type="xs:string"/>
+          <xs:element minOccurs="0" name="type" type="tns:DocumentEntryType"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="referenceIdList" nillable="true" type="tns:ReferenceId"/>
+          <xs:element minOccurs="0" name="documentAvailability" type="tns:DocumentAvailability"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="IdentifiedObject">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="homeCommunityId" type="xs:string"/>
+      <xs:element minOccurs="0" name="entryUuid" type="xs:string"/>
+      <xs:element minOccurs="0" name="logicalUuid" type="xs:string"/>
+      <xs:element minOccurs="0" name="version" type="tns:Version"/>
+      <xs:element minOccurs="0" name="uniqueId" type="xs:string"/>
+      <xs:element minOccurs="0" name="patientId" type="tns:Identifiable"/>
+      <xs:element minOccurs="0" name="availabilityStatus" type="tns:AvailabilityStatus"/>
+      <xs:element minOccurs="0" name="title" type="tns:LocalizedString"/>
+      <xs:element minOccurs="0" name="comments" type="tns:LocalizedString"/>
+      <xs:element name="limitedMetadata" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="extraMetadata">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element form="unqualified" maxOccurs="unbounded" name="value" type="xs:string"/>
+                </xs:sequence>
+                <xs:attribute name="key" type="xs:string" use="required"/>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Identifiable">
+    <xs:sequence/>
+    <xs:attribute name="extension" type="xs:string"/>
+    <xs:attribute name="root" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="xcnName">
+    <xs:complexContent>
+      <xs:extension base="tns:Name">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="Name">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="prefix" type="xs:string"/>
+      <xs:element minOccurs="0" name="given" type="xs:string"/>
+      <xs:element minOccurs="0" name="secondAndFurtherGiven" type="xs:string"/>
+      <xs:element minOccurs="0" name="family" type="xs:string"/>
+      <xs:element minOccurs="0" name="suffix" type="xs:string"/>
+      <xs:element minOccurs="0" name="degree" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Timestamp">
+    <xs:sequence/>
+    <xs:attribute name="dateTime" type="xs:dateTime"/>
+    <xs:attribute name="precision" type="tns:Precision"/>
+  </xs:complexType>
+
+  <xs:complexType name="Address">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="streetAddress" type="xs:string"/>
+      <xs:element minOccurs="0" name="additionalLocator" type="xs:string"/>
+      <xs:element minOccurs="0" name="city" type="xs:string"/>
+      <xs:element minOccurs="0" name="county" type="xs:string"/>
+      <xs:element minOccurs="0" name="state" type="xs:string"/>
+      <xs:element minOccurs="0" name="country" type="xs:string"/>
+      <xs:element minOccurs="0" name="postalCode" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PatientInfo">
+    <xs:sequence>
+      <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="id" type="tns:Identifiable"/>
+      <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="name" type="tns:xcnName"/>
+      <xs:element form="unqualified" minOccurs="0" name="birthTime" type="tns:Timestamp"/>
+      <xs:element form="unqualified" minOccurs="0" name="gender" type="xs:string"/>
+      <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="address" type="tns:Address"/>
+      <xs:element form="unqualified" minOccurs="0" name="other"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Author">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="authorPerson" type="tns:Person"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="authorInstitution" nillable="true" type="tns:Organization"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="authorSpecialty" nillable="true" type="tns:Identifiable"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="authorRole" nillable="true" type="tns:Identifiable"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="authorTelecom" nillable="true" type="tns:Telecom"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Person">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="tns:Identifiable"/>
+      <xs:element minOccurs="0" name="name" type="tns:xcnName"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Organization">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="idNumber" type="xs:string"/>
+      <xs:element minOccurs="0" name="assigningAuthority" type="tns:AssigningAuthority"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AssigningAuthority">
+    <xs:sequence/>
+    <xs:attribute name="universalId" type="xs:string"/>
+    <xs:attribute name="universalIdType" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="Telecom">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="use" type="xs:string"/>
+      <xs:element minOccurs="0" name="type" type="xs:string"/>
+      <xs:element minOccurs="0" name="email" type="xs:string"/>
+      <xs:element minOccurs="0" name="countryCode" type="xs:long"/>
+      <xs:element minOccurs="0" name="areaCityCode" type="xs:long"/>
+      <xs:element minOccurs="0" name="localNumber" type="xs:long"/>
+      <xs:element minOccurs="0" name="extension" type="xs:long"/>
+      <xs:element minOccurs="0" name="unformattedPhoneNumber" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Code">
+    <xs:sequence/>
+    <xs:attribute name="code" type="xs:string"/>
+    <xs:attribute name="codeSystemName" type="xs:string"/>
+    <xs:attribute name="displayName" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="ReferenceId">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="assigningAuthority" type="tns:CXiAssigningAuthority"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:attribute name="idTypeCode" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="CXiAssigningAuthority">
+    <xs:complexContent>
+      <xs:extension base="tns:AssigningAuthority">
+        <xs:sequence/>
+        <xs:attribute name="namespaceId" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Version">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="versionName" type="xs:string"/>
+      <xs:element minOccurs="0" name="comment" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LocalizedString">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="language" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="SubmissionSet">
+    <xs:complexContent>
+      <xs:extension base="tns:IdentifiedObject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="sourceId" type="xs:string"/>
+          <xs:element minOccurs="0" name="submissionTime" type="tns:Timestamp"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="author" type="tns:Author"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="intendedRecipient" type="tns:Recipient"/>
+          <xs:element minOccurs="0" name="contentTypeCode" type="tns:Code"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Recipient">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="person" type="tns:Person"/>
+      <xs:element minOccurs="0" name="organization" type="tns:Organization"/>
+      <xs:element minOccurs="0" name="telecom" type="tns:Telecom"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="Precision">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="YEAR"/>
+      <xs:enumeration value="MONTH"/>
+      <xs:enumeration value="DAY"/>
+      <xs:enumeration value="HOUR"/>
+      <xs:enumeration value="MINUTE"/>
+      <xs:enumeration value="SECOND"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="DocumentEntryType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="stable"/>
+      <xs:enumeration value="on-demand"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="DocumentAvailability">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Offline"/>
+      <xs:enumeration value="Online"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="AvailabilityStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Approved"/>
+      <xs:enumeration value="Deprecated"/>
+      <xs:enumeration value="Submitted"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.csi.it/gatefire/" xmlns:ns1="http://www.openehealth.org/ipf/xds" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.csi.it/gatefire/" version="1.0">
+  <xs:import namespace="http://www.openehealth.org/ipf/xds"/>
+  <xs:element name="annullaDocumento" type="tns:annullaDocumento"/>
+  <xs:element name="annullaDocumentoResponse" type="tns:annullaDocumentoResponse"/>
+  <xs:element name="archivia" type="tns:archivia"/>
+  <xs:element name="archiviaResponse" type="tns:archiviaResponse"/>
+  <xs:element name="attachment" type="tns:attachment"/>
+  <xs:element name="closeSession" type="tns:closeSession"/>
+  <xs:element name="closeSessionResponse" type="tns:closeSessionResponse"/>
+  <xs:element name="documentEntry" type="tns:DocumentEntry"/>
+  <xs:element name="fileResult" type="tns:fileResult"/>
+  <xs:element name="firmaPAdES" type="tns:firmaPAdES"/>
+  <xs:element name="firmaPAdESAutomatica" type="tns:firmaPAdESAutomatica"/>
+  <xs:element name="firmaPAdESAutomaticaConArchiviaz" type="tns:firmaPAdESAutomaticaConArchiviaz"/>
+  <xs:element name="firmaPAdESAutomaticaConArchiviazResponse" type="tns:firmaPAdESAutomaticaConArchiviazResponse"/>
+  <xs:element name="firmaPAdESAutomaticaResponse" type="tns:firmaPAdESAutomaticaResponse"/>
+  <xs:element name="firmaPAdESConArchiviaz" type="tns:firmaPAdESConArchiviaz"/>
+  <xs:element name="firmaPAdESConArchiviazResponse" type="tns:firmaPAdESConArchiviazResponse"/>
+  <xs:element name="firmaPAdESMassiva" type="tns:firmaPAdESMassiva"/>
+  <xs:element name="firmaPAdESMassivaAutomatica" type="tns:firmaPAdESMassivaAutomatica"/>
+  <xs:element name="firmaPAdESMassivaAutomaticaResponse" type="tns:firmaPAdESMassivaAutomaticaResponse"/>
+  <xs:element name="firmaPAdESMassivaRemota" type="tns:firmaPAdESMassivaRemota"/>
+  <xs:element name="firmaPAdESMassivaRemotaResponse" type="tns:firmaPAdESMassivaRemotaResponse"/>
+  <xs:element name="firmaPAdESMassivaResponse" type="tns:firmaPAdESMassivaResponse"/>
+  <xs:element name="firmaPAdESRemota" type="tns:firmaPAdESRemota"/>
+  <xs:element name="firmaPAdESRemotaConArchiviaz" type="tns:firmaPAdESRemotaConArchiviaz"/>
+  <xs:element name="firmaPAdESRemotaConArchiviazResponse" type="tns:firmaPAdESRemotaConArchiviazResponse"/>
+  <xs:element name="firmaPAdESRemotaResponse" type="tns:firmaPAdESRemotaResponse"/>
+  <xs:element name="firmaPAdESResponse" type="tns:firmaPAdESResponse"/>
+  <xs:element name="marcaTemporale" type="tns:marcaTemporale"/>
+  <xs:element name="marcaTemporaleResponse" type="tns:marcaTemporaleResponse"/>
+  <xs:element name="modificaMetadati" type="tns:modificaMetadati"/>
+  <xs:element name="modificaMetadatiResponse" type="tns:modificaMetadatiResponse"/>
+  <xs:element name="openSession" type="tns:openSession"/>
+  <xs:element name="openSessionResponse" type="tns:openSessionResponse"/>
+  <xs:element name="otpResult" type="tns:otpResult"/>
+  <xs:element name="ping" type="tns:ping"/>
+  <xs:element name="pingResponse" type="tns:pingResponse"/>
+  <xs:element name="pingResult" type="tns:pingResult"/>
+  <xs:element name="recuperaDocumento" type="tns:recuperaDocumento"/>
+  <xs:element name="recuperaDocumentoResponse" type="tns:recuperaDocumentoResponse"/>
+  <xs:element name="recuperaMetadataDocumento" type="tns:recuperaMetadataDocumento"/>
+  <xs:element name="recuperaMetadataDocumentoResponse" type="tns:recuperaMetadataDocumentoResponse"/>
+  <xs:element name="result" type="tns:result"/>
+  <xs:element name="richiestaOtp" type="tns:richiestaOtp"/>
+  <xs:element name="richiestaOtpResponse" type="tns:richiestaOtpResponse"/>
+  <xs:element name="sessionIdResult" type="tns:sessionIdResult"/>
+  <xs:element name="verificaFirma" type="tns:verificaFirma"/>
+  <xs:element name="verificaFirmaResponse" type="tns:verificaFirmaResponse"/>
+  <xs:element name="verificaMarca" type="tns:verificaMarca"/>
+  <xs:element name="verificaMarcaDetached" type="tns:verificaMarcaDetached"/>
+  <xs:element name="verificaMarcaDetachedResponse" type="tns:verificaMarcaDetachedResponse"/>
+  <xs:element name="verificaMarcaResponse" type="tns:verificaMarcaResponse"/>
+  <xs:complexType name="firmaPAdESConArchiviaz">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="attachment" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="padesInput" type="tns:padesInput"/>
+      <xs:element minOccurs="0" name="identity" type="tns:identity"/>
+      <xs:element minOccurs="0" name="metadata" type="tns:itiMetadata"/>
+      <xs:element minOccurs="0" name="assertionIdentity" type="tns:assertionIdentity"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="attachment">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="file" type="xs:base64Binary"/>
+      <xs:element minOccurs="0" name="fileName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="padesInput">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="callInfo" type="tns:callInfo"/>
+      <xs:element minOccurs="0" name="markIdentity" type="tns:markIdentity"/>
+      <xs:element name="requiredMark" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="signLayout" type="tns:signLayout"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="callInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="applicationCode" type="xs:string"/>
+      <xs:element minOccurs="0" name="caCode" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceFiscale" type="xs:string"/>
+      <xs:element minOccurs="0" name="collocazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dominio" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="markIdentity">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="password" type="xs:string"/>
+      <xs:element minOccurs="0" name="user" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="signLayout">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="image" type="xs:base64Binary"/>
+      <xs:element minOccurs="0" name="lowLeftX" type="xs:int"/>
+      <xs:element minOccurs="0" name="lowLeftY" type="xs:int"/>
+      <xs:element minOccurs="0" name="page" type="xs:int"/>
+      <xs:element minOccurs="0" name="reason" type="xs:string"/>
+      <xs:element name="showDateTime" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="text" type="xs:string"/>
+      <xs:element minOccurs="0" name="upRightX" type="xs:int"/>
+      <xs:element minOccurs="0" name="upRightY" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="identity">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="otp" type="xs:string"/>
+      <xs:element minOccurs="0" name="password" type="xs:string"/>
+      <xs:element minOccurs="0" name="user" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="itiMetadata">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="documento" type="tns:documento"/>
+      <xs:element minOccurs="0" name="episodio" type="tns:episodio"/>
+      <xs:element minOccurs="0" name="paziente" type="tns:paziente"/>
+      <xs:element minOccurs="0" name="richiesta" type="tns:richiesta"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="documento">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="accessionNumber" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="assettoOrganizzativo" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceDocumentoScaricabile" type="xs:string"/>
+      <xs:element minOccurs="0" name="codicePin" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataDisponibilitaReferto" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dataOraFirmaDocumento" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="firmatoDigitalmente" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="formatCode" type="xs:string"/>
+      <xs:element minOccurs="0" name="importoTicketDaPagare" type="xs:string"/>
+      <xs:element minOccurs="0" name="importoTicketPagato" type="xs:string"/>
+      <xs:element minOccurs="0" name="invioCLS" type="xs:string"/>
+      <xs:element minOccurs="0" name="invioFSE" type="xs:string"/>
+      <xs:element minOccurs="0" name="livelloRiservatezza" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="medicoRedattore" nillable="true" type="tns:medico"/>
+      <xs:element minOccurs="0" name="medicoValidatore" type="tns:medico"/>
+      <xs:element minOccurs="0" name="mimeType" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="nre" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="oscuraScaricoCittadino" type="xs:string"/>
+      <xs:element minOccurs="0" name="oscuramentoDocDSE" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="pagatoTicket" type="xs:string"/>
+      <xs:element minOccurs="0" name="privacyDocumento" type="xs:string"/>
+      <xs:element minOccurs="0" name="scaricabileDalCittadino" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="soggettoALeggiSpeciali" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="tipoAttivitaClinica" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoFirma" type="tns:tipoFirma"/>
+      <xs:element minOccurs="0" name="tipologiaDocumentoAlto" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipologiaDocumentoMedio" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipologiaStrutturaProdDoc" type="xs:string"/>
+      <xs:element minOccurs="0" name="uniqueId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="medico">
+    <xs:complexContent>
+      <xs:extension base="tns:persona">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ruolo" type="tns:ruolo"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="persona">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceFiscale" type="xs:string"/>
+      <xs:element minOccurs="0" name="cognome" type="xs:string"/>
+      <xs:element minOccurs="0" name="nome" type="xs:string"/>
+      <xs:element minOccurs="0" name="prefisso" type="xs:string"/>
+      <xs:element minOccurs="0" name="secondoNome" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="episodio">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceLuogoAccettazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceLuogoCP" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceLuogoDimissione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataFine" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dataInizio" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="idEpisodio" type="xs:string"/>
+      <xs:element minOccurs="0" name="idEpisodioOriginanteRichiesta" type="xs:string"/>
+      <xs:element minOccurs="0" name="idRichiestaCUP" type="xs:string"/>
+      <xs:element minOccurs="0" name="idRichiestaOrderEntry" type="xs:string"/>
+      <xs:element minOccurs="0" name="idRichiestaPS" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroNosologico" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroPassaggioPS" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoEpisodio" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoEpisodioOriginanteRichiesta" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="paziente">
+    <xs:complexContent>
+      <xs:extension base="tns:persona">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="codIstatComuneDiNascita" type="xs:string"/>
+          <xs:element minOccurs="0" name="codiceNazioneDiNascita" type="xs:string"/>
+          <xs:element minOccurs="0" name="comuneDiNascita" type="xs:string"/>
+          <xs:element minOccurs="0" name="dataDiNascita" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="idAura" type="xs:string"/>
+          <xs:element minOccurs="0" name="identificativoGenitoreTutore" type="xs:string"/>
+          <xs:element minOccurs="0" name="indirizzoResidenza" type="tns:indirizzo"/>
+          <xs:element minOccurs="0" name="sesso" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="indirizzo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codIstatComune" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceNazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="comune" type="xs:string"/>
+      <xs:element minOccurs="0" name="indirizzo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="richiesta">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceApplicativo" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceAzienda" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="prestazione" nillable="true" type="tns:prestazione"/>
+      <xs:element minOccurs="0" name="utente" type="tns:utente"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="prestazione">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceBrancaRegionale" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceCatalogoRegionalePrestazione" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="utente">
+    <xs:complexContent>
+      <xs:extension base="tns:persona">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="codiceMatricola" type="xs:string"/>
+          <xs:element minOccurs="0" name="codiceStruttura" type="xs:string"/>
+          <xs:element minOccurs="0" name="ruolo" type="tns:ruolo"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="assertionIdentity">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="password" type="xs:string"/>
+      <xs:element minOccurs="0" name="user" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESConArchiviazResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:fileResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="fileResult">
+    <xs:complexContent>
+      <xs:extension base="tns:baseResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="attachment" type="tns:attachment"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType abstract="true" name="baseResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="result" type="tns:result"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="result">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="description" type="xs:string"/>
+      <xs:element minOccurs="0" name="errorCode" type="xs:string"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+      <xs:element minOccurs="0" name="originalReturnCode" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ping">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="user" type="xs:string"/>
+      <xs:element minOccurs="0" name="callInfo" type="tns:callInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pingResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:pingResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pingResult">
+    <xs:complexContent>
+      <xs:extension base="tns:baseResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="success" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="recuperaDocumento">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="repositoryInput" type="tns:repositoryDocIdInput"/>
+      <xs:element minOccurs="0" name="callInfo" type="tns:callInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="repositoryDocIdInput">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="docUid" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recuperaDocumentoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:fileResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="archivia">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="repositoryInput" type="tns:repositoryInput"/>
+      <xs:element minOccurs="0" name="callInfo" type="tns:callInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="repositoryInput">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="attachment" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="metadata" type="tns:itiMetadata"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="archiviaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:result"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="annullaDocumento">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="repositoryInput" type="tns:repositoryUndoInput"/>
+      <xs:element minOccurs="0" name="callInfo" type="tns:callInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="repositoryUndoInput">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="attachment" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="originalDocUniqueId" type="xs:string"/>
+      <xs:element minOccurs="0" name="richiesta" type="tns:richiesta"/>
+      <xs:element minOccurs="0" name="undoDocUniqueId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="annullaDocumentoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:result"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESAutomaticaConArchiviaz">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="attachment" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="padesInput" type="tns:padesInput"/>
+      <xs:element minOccurs="0" name="identity" type="tns:autoSignIdentity"/>
+      <xs:element minOccurs="0" name="metadata" type="tns:itiMetadata"/>
+      <xs:element minOccurs="0" name="assertionIdentity" type="tns:assertionIdentity"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="autoSignIdentity">
+    <xs:complexContent>
+      <xs:extension base="tns:identity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="delegatedDomain" type="xs:string"/>
+          <xs:element minOccurs="0" name="delegatedPassword" type="xs:string"/>
+          <xs:element minOccurs="0" name="delegatedUser" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESAutomaticaConArchiviazResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:fileResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESAutomatica">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="attachment" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="padesInput" type="tns:padesInput"/>
+      <xs:element minOccurs="0" name="identity" type="tns:autoSignIdentity"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESAutomaticaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:fileResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESMassivaRemota">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="attachment" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="padesInput" type="tns:padesInput"/>
+      <xs:element minOccurs="0" name="identity" type="tns:signIdentity"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="signIdentity">
+    <xs:complexContent>
+      <xs:extension base="tns:identity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="sessionId" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESMassivaRemotaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:fileResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modificaMetadati">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="repositoryInput" type="tns:repositoryMetadataUpdateInput"/>
+      <xs:element minOccurs="0" name="callInfo" type="tns:callInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="repositoryMetadataUpdateInput">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="docUid" type="xs:string"/>
+      <xs:element minOccurs="0" name="metadata" type="tns:itiMetadataUpdate"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="itiMetadataUpdate">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="documento" type="tns:documento"/>
+      <xs:element minOccurs="0" name="richiesta" type="tns:richiesta"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modificaMetadatiResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:result"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recuperaMetadataDocumento">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="repositoryInput" type="tns:repositoryDocIdInput"/>
+      <xs:element minOccurs="0" name="callInfo" type="tns:callInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recuperaMetadataDocumentoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:repositoryQueryResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="repositoryQueryResult">
+    <xs:complexContent>
+      <xs:extension base="tns:baseResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="documentEntry" type="tns:DocumentEntry"/>
+          <xs:element minOccurs="0" name="submissionSet" type="ns1:SubmissionSet"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DocumentEntry">
+    <xs:complexContent>
+      <xs:extension base="ns1:DocumentEntry">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="sourcePatientIdList" nillable="true" type="ns1:Identifiable"/>
+          <xs:element minOccurs="0" name="extSourcePatientInfo" type="tns:PatientInfoExt"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="PatientInfoExt">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="id" type="ns1:Identifiable"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="name" type="ns1:xcnName"/>
+      <xs:element minOccurs="0" name="birthTime" type="ns1:Timestamp"/>
+      <xs:element minOccurs="0" name="gender" type="xs:string"/>
+      <xs:element minOccurs="0" name="birthCountry" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="address" type="ns1:Address"/>
+      <xs:element minOccurs="0" name="other">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element maxOccurs="unbounded" name="value" type="xs:string"/>
+                </xs:sequence>
+                <xs:attribute name="key" type="xs:string" use="required"/>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdES">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="attachment" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="padesInput" type="tns:padesInput"/>
+      <xs:element minOccurs="0" name="identity" type="tns:identity"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:fileResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="marcaTemporale">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="attachment" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="markInput" type="tns:markInput"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="markInput">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="callInfo" type="tns:callInfo"/>
+      <xs:element minOccurs="0" name="markIdentity" type="tns:markIdentity"/>
+      <xs:element minOccurs="0" name="markType" type="tns:markType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="marcaTemporaleResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:fileResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verificaFirma">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="attachment" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="callInfo" type="tns:callInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verificaFirmaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:signVerifyResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="signVerifyResult">
+    <xs:complexContent>
+      <xs:extension base="tns:baseResult">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="signer" nillable="true" type="tns:signer"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="signer">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="certificate" type="tns:certificate"/>
+      <xs:element minOccurs="0" name="signTime" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="signTimeStr" type="xs:string"/>
+      <xs:element minOccurs="0" name="signValidation" type="xs:string"/>
+      <xs:element minOccurs="0" name="signValidationMessage" type="xs:string"/>
+      <xs:element minOccurs="0" name="timestamp" type="tns:timeStamp"/>
+      <xs:element minOccurs="0" name="valid" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="certificate">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="certPolicyList" nillable="true" type="tns:certPolicy"/>
+      <xs:element minOccurs="0" name="issuer" type="tns:issuer"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="revocationInfo" type="tns:revocationInfo"/>
+      <xs:element minOccurs="0" name="sn" type="xs:string"/>
+      <xs:element minOccurs="0" name="subject" type="tns:subject"/>
+      <xs:element minOccurs="0" name="timeValid" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="valid" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="validFrom" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="validTo" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="certPolicy">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cpText" type="xs:string"/>
+      <xs:element minOccurs="0" name="cpsUri" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="issuer">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="distinguishName" type="xs:string"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="partitaIva" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="revocationInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="expired" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="revocationDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="thisUpdate" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="subject">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceFiscale" type="xs:string"/>
+      <xs:element minOccurs="0" name="commonName" type="xs:string"/>
+      <xs:element minOccurs="0" name="country" type="xs:string"/>
+      <xs:element minOccurs="0" name="distinguishName" type="xs:string"/>
+      <xs:element minOccurs="0" name="organization" type="xs:string"/>
+      <xs:element minOccurs="0" name="role" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="timeStamp">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="generationTime" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="serialNumber" type="xs:string"/>
+      <xs:element minOccurs="0" name="signValid" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="tsAuthorityName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verificaMarcaDetached">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="mark" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="originalFile" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="callInfo" type="tns:callInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verificaMarcaDetachedResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:markVerifyResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="markVerifyResult">
+    <xs:complexContent>
+      <xs:extension base="tns:baseResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="certificate" type="tns:certificate"/>
+          <xs:element minOccurs="0" name="timeStamp" type="tns:timeStamp"/>
+          <xs:element minOccurs="0" name="valid" type="xs:boolean"/>
+          <xs:element minOccurs="0" name="validation" type="xs:string"/>
+          <xs:element minOccurs="0" name="validationMessage" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESMassiva">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="attachment" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="padesInput" type="tns:padesInput"/>
+      <xs:element minOccurs="0" name="identity" type="tns:identity"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESMassivaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:fileResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESRemota">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="attachment" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="padesInput" type="tns:padesInput"/>
+      <xs:element minOccurs="0" name="identity" type="tns:signIdentity"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESRemotaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:fileResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="openSession">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="sessionInput" type="tns:sessionInput"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sessionInput">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="callInfo" type="tns:callInfo"/>
+      <xs:element minOccurs="0" name="signIdentity" type="tns:signIdentity"/>
+      <xs:element minOccurs="0" name="signType" type="tns:signType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="openSessionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:sessionIdResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sessionIdResult">
+    <xs:complexContent>
+      <xs:extension base="tns:baseResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="sessionId" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="richiestaOtp">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="otpReqInput" type="tns:otpReqInput"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="otpReqInput">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="callInfo" type="tns:callInfo"/>
+      <xs:element minOccurs="0" name="identity" type="tns:identity"/>
+      <xs:element minOccurs="0" name="otpCredentialsType" type="tns:otpCredentialsType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="richiestaOtpResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:otpResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="otpResult">
+    <xs:complexContent>
+      <xs:extension base="tns:baseResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="success" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="closeSession">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="sessionId" type="xs:string"/>
+      <xs:element minOccurs="0" name="sessionInput" type="tns:sessionInput"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="closeSessionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:result"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESRemotaConArchiviaz">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="attachment" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="padesInput" type="tns:padesInput"/>
+      <xs:element minOccurs="0" name="identity" type="tns:signIdentity"/>
+      <xs:element minOccurs="0" name="metadata" type="tns:itiMetadata"/>
+      <xs:element minOccurs="0" name="assertionIdentity" type="tns:assertionIdentity"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESRemotaConArchiviazResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:fileResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESMassivaAutomatica">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="attachment" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="padesInput" type="tns:padesInput"/>
+      <xs:element minOccurs="0" name="identity" type="tns:autoSignIdentity"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="firmaPAdESMassivaAutomaticaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:fileResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verificaMarca">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="attachment" type="tns:attachment"/>
+      <xs:element minOccurs="0" name="callInfo" type="tns:callInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verificaMarcaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:markVerifyResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ruolo">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AAS"/>
+      <xs:enumeration value="APR"/>
+      <xs:enumeration value="PSS"/>
+      <xs:enumeration value="INF"/>
+      <xs:enumeration value="FAR"/>
+      <xs:enumeration value="DSA"/>
+      <xs:enumeration value="DAM"/>
+      <xs:enumeration value="OAM"/>
+      <xs:enumeration value="ASS"/>
+      <xs:enumeration value="TUT"/>
+      <xs:enumeration value="ING"/>
+      <xs:enumeration value="GEN"/>
+      <xs:enumeration value="NOR"/>
+      <xs:enumeration value="DRS"/>
+      <xs:enumeration value="RSA"/>
+      <xs:enumeration value="MRP"/>
+      <xs:enumeration value="INI"/>
+      <xs:enumeration value="OGC"/>
+      <xs:enumeration value="OPI"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="tipoFirma">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PADES"/>
+      <xs:enumeration value="CADES"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="markType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TSD"/>
+      <xs:enumeration value="TSR"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="signType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="REMOTA"/>
+      <xs:enumeration value="AUTOMATICA"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="otpCredentialsType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SMS"/>
+      <xs:enumeration value="ARUBACALL"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="firmaPAdESConArchiviaz">
+    <wsdl:part element="tns:firmaPAdESConArchiviaz" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="closeSessionResponse">
+    <wsdl:part element="tns:closeSessionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESAutomaticaResponse">
+    <wsdl:part element="tns:firmaPAdESAutomaticaResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recuperaMetadataDocumentoResponse">
+    <wsdl:part element="tns:recuperaMetadataDocumentoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESMassivaRemotaResponse">
+    <wsdl:part element="tns:firmaPAdESMassivaRemotaResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="archivia">
+    <wsdl:part element="tns:archivia" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="annullaDocumento">
+    <wsdl:part element="tns:annullaDocumento" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESAutomaticaConArchiviazResponse">
+    <wsdl:part element="tns:firmaPAdESAutomaticaConArchiviazResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESRemotaConArchiviazResponse">
+    <wsdl:part element="tns:firmaPAdESRemotaConArchiviazResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESAutomaticaConArchiviaz">
+    <wsdl:part element="tns:firmaPAdESAutomaticaConArchiviaz" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESAutomatica">
+    <wsdl:part element="tns:firmaPAdESAutomatica" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recuperaMetadataDocumento">
+    <wsdl:part element="tns:recuperaMetadataDocumento" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESMassivaAutomaticaResponse">
+    <wsdl:part element="tns:firmaPAdESMassivaAutomaticaResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verificaFirma">
+    <wsdl:part element="tns:verificaFirma" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verificaMarcaDetached">
+    <wsdl:part element="tns:verificaMarcaDetached" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="richiestaOtpResponse">
+    <wsdl:part element="tns:richiestaOtpResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="marcaTemporaleResponse">
+    <wsdl:part element="tns:marcaTemporaleResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESResponse">
+    <wsdl:part element="tns:firmaPAdESResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESRemota">
+    <wsdl:part element="tns:firmaPAdESRemota" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="openSession">
+    <wsdl:part element="tns:openSession" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="richiestaOtp">
+    <wsdl:part element="tns:richiestaOtp" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verificaMarcaResponse">
+    <wsdl:part element="tns:verificaMarcaResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESConArchiviazResponse">
+    <wsdl:part element="tns:firmaPAdESConArchiviazResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="pingResponse">
+    <wsdl:part element="tns:pingResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verificaMarcaDetachedResponse">
+    <wsdl:part element="tns:verificaMarcaDetachedResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verificaMarca">
+    <wsdl:part element="tns:verificaMarca" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verificaFirmaResponse">
+    <wsdl:part element="tns:verificaFirmaResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESMassivaResponse">
+    <wsdl:part element="tns:firmaPAdESMassivaResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ping">
+    <wsdl:part element="tns:ping" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recuperaDocumento">
+    <wsdl:part element="tns:recuperaDocumento" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESMassivaRemota">
+    <wsdl:part element="tns:firmaPAdESMassivaRemota" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="modificaMetadati">
+    <wsdl:part element="tns:modificaMetadati" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdES">
+    <wsdl:part element="tns:firmaPAdES" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="marcaTemporale">
+    <wsdl:part element="tns:marcaTemporale" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="modificaMetadatiResponse">
+    <wsdl:part element="tns:modificaMetadatiResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESMassiva">
+    <wsdl:part element="tns:firmaPAdESMassiva" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recuperaDocumentoResponse">
+    <wsdl:part element="tns:recuperaDocumentoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="annullaDocumentoResponse">
+    <wsdl:part element="tns:annullaDocumentoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="closeSession">
+    <wsdl:part element="tns:closeSession" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESRemotaConArchiviaz">
+    <wsdl:part element="tns:firmaPAdESRemotaConArchiviaz" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="archiviaResponse">
+    <wsdl:part element="tns:archiviaResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESMassivaAutomatica">
+    <wsdl:part element="tns:firmaPAdESMassivaAutomatica" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="openSessionResponse">
+    <wsdl:part element="tns:openSessionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="firmaPAdESRemotaResponse">
+    <wsdl:part element="tns:firmaPAdESRemotaResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="gateFireSrvc">
+<wsdl:documentation>Servizio di gatefire</wsdl:documentation>
+    <wsdl:operation name="firmaPAdESConArchiviaz">
+<wsdl:documentation>firma PAdES con archiviazione del documento firmato su repository - se otp specificato: firma remota. Se otp nullo: firma automatica.</wsdl:documentation>
+      <wsdl:input message="tns:firmaPAdESConArchiviaz" name="firmaPAdESConArchiviaz">
+    </wsdl:input>
+      <wsdl:output message="tns:firmaPAdESConArchiviazResponse" name="firmaPAdESConArchiviazResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ping">
+<wsdl:documentation>Verifica disponibilita' servizio di firma</wsdl:documentation>
+      <wsdl:input message="tns:ping" name="ping">
+    </wsdl:input>
+      <wsdl:output message="tns:pingResponse" name="pingResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recuperaDocumento">
+<wsdl:documentation>Recupero di un documento su repository.</wsdl:documentation>
+      <wsdl:input message="tns:recuperaDocumento" name="recuperaDocumento">
+    </wsdl:input>
+      <wsdl:output message="tns:recuperaDocumentoResponse" name="recuperaDocumentoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="archivia">
+<wsdl:documentation>Archiviazione di un documento su repository.</wsdl:documentation>
+      <wsdl:input message="tns:archivia" name="archivia">
+    </wsdl:input>
+      <wsdl:output message="tns:archiviaResponse" name="archiviaResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="annullaDocumento">
+<wsdl:documentation>Annullamento di un documento su repository.</wsdl:documentation>
+      <wsdl:input message="tns:annullaDocumento" name="annullaDocumento">
+    </wsdl:input>
+      <wsdl:output message="tns:annullaDocumentoResponse" name="annullaDocumentoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdESAutomaticaConArchiviaz">
+<wsdl:documentation>firma PAdES Automatica con archiviazione del documento firmato su repository.</wsdl:documentation>
+      <wsdl:input message="tns:firmaPAdESAutomaticaConArchiviaz" name="firmaPAdESAutomaticaConArchiviaz">
+    </wsdl:input>
+      <wsdl:output message="tns:firmaPAdESAutomaticaConArchiviazResponse" name="firmaPAdESAutomaticaConArchiviazResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdESAutomatica">
+<wsdl:documentation>firma PAdES Automatica</wsdl:documentation>
+      <wsdl:input message="tns:firmaPAdESAutomatica" name="firmaPAdESAutomatica">
+    </wsdl:input>
+      <wsdl:output message="tns:firmaPAdESAutomaticaResponse" name="firmaPAdESAutomaticaResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdESMassivaRemota">
+<wsdl:documentation>firma PAdES Massiva Remota</wsdl:documentation>
+      <wsdl:input message="tns:firmaPAdESMassivaRemota" name="firmaPAdESMassivaRemota">
+    </wsdl:input>
+      <wsdl:output message="tns:firmaPAdESMassivaRemotaResponse" name="firmaPAdESMassivaRemotaResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modificaMetadati">
+<wsdl:documentation>Modifica dei metadati di un documento su repository.</wsdl:documentation>
+      <wsdl:input message="tns:modificaMetadati" name="modificaMetadati">
+    </wsdl:input>
+      <wsdl:output message="tns:modificaMetadatiResponse" name="modificaMetadatiResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recuperaMetadataDocumento">
+<wsdl:documentation>Recupero metadati di un documento su repository.</wsdl:documentation>
+      <wsdl:input message="tns:recuperaMetadataDocumento" name="recuperaMetadataDocumento">
+    </wsdl:input>
+      <wsdl:output message="tns:recuperaMetadataDocumentoResponse" name="recuperaMetadataDocumentoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdES">
+<wsdl:documentation>firma PAdES - se otp specificato: firma remota. Se otp nullo: firma automatica.</wsdl:documentation>
+      <wsdl:input message="tns:firmaPAdES" name="firmaPAdES">
+    </wsdl:input>
+      <wsdl:output message="tns:firmaPAdESResponse" name="firmaPAdESResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="marcaTemporale">
+<wsdl:documentation>Marca temporale</wsdl:documentation>
+      <wsdl:input message="tns:marcaTemporale" name="marcaTemporale">
+    </wsdl:input>
+      <wsdl:output message="tns:marcaTemporaleResponse" name="marcaTemporaleResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="verificaFirma">
+<wsdl:documentation>verifica firma</wsdl:documentation>
+      <wsdl:input message="tns:verificaFirma" name="verificaFirma">
+    </wsdl:input>
+      <wsdl:output message="tns:verificaFirmaResponse" name="verificaFirmaResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="verificaMarcaDetached">
+<wsdl:documentation>verifica marca detached</wsdl:documentation>
+      <wsdl:input message="tns:verificaMarcaDetached" name="verificaMarcaDetached">
+    </wsdl:input>
+      <wsdl:output message="tns:verificaMarcaDetachedResponse" name="verificaMarcaDetachedResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdESMassiva">
+<wsdl:documentation>firma PAdES Massiva  - se otp specificato: firma remota. Se otp nullo: firma automatica.</wsdl:documentation>
+      <wsdl:input message="tns:firmaPAdESMassiva" name="firmaPAdESMassiva">
+    </wsdl:input>
+      <wsdl:output message="tns:firmaPAdESMassivaResponse" name="firmaPAdESMassivaResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdESRemota">
+<wsdl:documentation>firma PAdES remota</wsdl:documentation>
+      <wsdl:input message="tns:firmaPAdESRemota" name="firmaPAdESRemota">
+    </wsdl:input>
+      <wsdl:output message="tns:firmaPAdESRemotaResponse" name="firmaPAdESRemotaResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="openSession">
+<wsdl:documentation>Apertura sessione di firma multipla. Si ottiene il session id da utlizzare nelle chiamate successive</wsdl:documentation>
+      <wsdl:input message="tns:openSession" name="openSession">
+    </wsdl:input>
+      <wsdl:output message="tns:openSessionResponse" name="openSessionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="richiestaOtp">
+<wsdl:documentation>richiesta otp</wsdl:documentation>
+      <wsdl:input message="tns:richiestaOtp" name="richiestaOtp">
+    </wsdl:input>
+      <wsdl:output message="tns:richiestaOtpResponse" name="richiestaOtpResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="closeSession">
+<wsdl:documentation>Chiusura sessione di firma multipla.</wsdl:documentation>
+      <wsdl:input message="tns:closeSession" name="closeSession">
+    </wsdl:input>
+      <wsdl:output message="tns:closeSessionResponse" name="closeSessionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdESRemotaConArchiviaz">
+<wsdl:documentation>firma PAdES remota con archiviazione del documento firmato su repository.</wsdl:documentation>
+      <wsdl:input message="tns:firmaPAdESRemotaConArchiviaz" name="firmaPAdESRemotaConArchiviaz">
+    </wsdl:input>
+      <wsdl:output message="tns:firmaPAdESRemotaConArchiviazResponse" name="firmaPAdESRemotaConArchiviazResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdESMassivaAutomatica">
+<wsdl:documentation>firma PAdES Massiva Automatica</wsdl:documentation>
+      <wsdl:input message="tns:firmaPAdESMassivaAutomatica" name="firmaPAdESMassivaAutomatica">
+    </wsdl:input>
+      <wsdl:output message="tns:firmaPAdESMassivaAutomaticaResponse" name="firmaPAdESMassivaAutomaticaResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="verificaMarca">
+<wsdl:documentation>verifica marca</wsdl:documentation>
+      <wsdl:input message="tns:verificaMarca" name="verificaMarca">
+    </wsdl:input>
+      <wsdl:output message="tns:verificaMarcaResponse" name="verificaMarcaResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="gateFireSrvcSoapBinding" type="tns:gateFireSrvc">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="firmaPAdESConArchiviaz">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="firmaPAdESConArchiviaz">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="firmaPAdESConArchiviazResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ping">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ping">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="pingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recuperaDocumento">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="recuperaDocumento">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="recuperaDocumentoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="archivia">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="archivia">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="archiviaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="annullaDocumento">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="annullaDocumento">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="annullaDocumentoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdESAutomaticaConArchiviaz">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="firmaPAdESAutomaticaConArchiviaz">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="firmaPAdESAutomaticaConArchiviazResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdESAutomatica">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="firmaPAdESAutomatica">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="firmaPAdESAutomaticaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdESMassivaRemota">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="firmaPAdESMassivaRemota">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="firmaPAdESMassivaRemotaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modificaMetadati">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="modificaMetadati">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="modificaMetadatiResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recuperaMetadataDocumento">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="recuperaMetadataDocumento">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="recuperaMetadataDocumentoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdES">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="firmaPAdES">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="firmaPAdESResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="marcaTemporale">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="marcaTemporale">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="marcaTemporaleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="verificaFirma">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="verificaFirma">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="verificaFirmaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="verificaMarcaDetached">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="verificaMarcaDetached">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="verificaMarcaDetachedResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdESMassiva">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="firmaPAdESMassiva">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="firmaPAdESMassivaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdESRemota">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="firmaPAdESRemota">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="firmaPAdESRemotaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="openSession">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="openSession">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="openSessionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="richiestaOtp">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="richiestaOtp">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="richiestaOtpResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="closeSession">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="closeSession">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="closeSessionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdESRemotaConArchiviaz">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="firmaPAdESRemotaConArchiviaz">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="firmaPAdESRemotaConArchiviazResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="firmaPAdESMassivaAutomatica">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="firmaPAdESMassivaAutomatica">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="firmaPAdESMassivaAutomaticaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="verificaMarca">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="verificaMarca">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="verificaMarcaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="gateFireSrvc">
+    <wsdl:port binding="tns:gateFireSrvcSoapBinding" name="gateFireSrvcPort">
+      <soap:address location="https://..../gateway/WS/gatefire"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
