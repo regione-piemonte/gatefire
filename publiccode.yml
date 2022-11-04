@@ -46,8 +46,7 @@ it:
     codiceIPA: r_piemon  
 landingURL: 'https://github.com/regione-piemonte/gatefire.git'
 legal:
-  authorsFile: |-
-    https://github.com/regione-piemonte/gatefire/COPYRIGHTS.md
+  authorsFile: COPYRIGHTS.md
   license: EUPL-1.2
   mainCopyrightOwner: Regione Piemonte
   repoOwner: Regione Piemonte
